@@ -11,6 +11,7 @@ def init_drawman():
     drawman_scale = 10
 
 
+
 def test_drawman():
     pen_down()
     for i in range(5):
