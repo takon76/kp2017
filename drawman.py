@@ -2,12 +2,13 @@ from turtle import Turtle   #чертежник из черепахи
 
 
 def init_drawman():
-    global t, x_cur, y_cur
+    global t, x_cur, y_cur, drawman_scale
     t = Turtle()
     t.penup()
     x_cur = 0
     y_cur = 0
     t.goto(x_cur, y_cur)
+    drawman_scale = 10
 
 
 def test_drawman():
@@ -27,17 +28,15 @@ def pen_up():
 
 
 def on_vector(dx,dy):
-    global x_cur, y_cur
-    x_cur += dx
-    y_cur += dy
-    t.goto(x_cur ,y_cur )
+    to_point(x_cur+dx, y_cur+dy)
+
 
 
 def to_point(x,y):
     global x_cur, y_cur
     x_cur = x
     y_cur = y
-    t.goto(x,y)
+    t.goto(drawman_scale *x,drawman_scale *y)
 
 
 init_drawman()
