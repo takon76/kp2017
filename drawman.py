@@ -1,50 +1,102 @@
-from turtle import Turtle   #чертежник из черепахи
-default_scale = 10
+from turtle import *
+from math import *
+
+scale_factor = 30
+current_x = 0
+current_y = 0
+
+def on_vector(x, y):
+    """черепашка в начале повёрнута на "восток"
+       и в конце тоже повёрнута на "восток"
+    """
+    global current_x, current_y
+
+    alpha = calculate_angle(x, y)
+    length = scale_factor*(x**2 + y**2)**0.5
+    left(alpha)
+    forward(length)
+    right(alpha)
+    current_x += x
+    current_y += y
+
+def to_point(x, y):
+    on_vector(x - current_x, y - current_y)
+
+def calculate_angle(x, y):
+    if x == 0:
+        if y == 0:
+            return 0
+        elif y > 0:
+            return 90
+        else:  # y < 0
+            return -90
+    elif x > 0:
+        return degrees(atan(y/x))
+    else:  # x < 0
+        return 180 + degrees(atan(y/x))
 
 def init_drawman():
-    global t, x_cur, y_cur, drawman_scale
-    t = Turtle()
-    t.penup()
-    x_cur = 0
-    y_cur = 0
-    t.goto(x_cur, y_cur)
-    drawman_scale(default_scale)
+    """ Инициализация Чертёжника """
+    clear()
+    penup()
+    speed(1000)
+    draw_coords_web()
+    draw_axis()
+    color('blue')
 
+def draw_coords_web():
+    """ После рисования сетки координат
+        ставит Чертёжника в точку (0, 0)
+        с поднятым пером
+    """
+    penup()
+    color('lightgray')
+    for x in range(-10, 11):
+        to_point(x, -10)
+        pendown()
+        to_point(x, +10)
+        penup()
+    for y in range(-10, 11):
+        to_point(-10, y)
+        pendown()
+        to_point(+10, y)
+        penup()
+    to_point(0, 0)
 
-def drawman_scale(scale):
-    global _drawman_scale
-    _drawman_scale = scale
+def draw_axis():
+    """ После рисования сетки координат
+        ставит Чертёжника в точку (0, 0)
+        с поднятым пером
+    """
+    penup()
+    color('black')
+    width(3)
+    to_point(-10, 0)
+    pendown()
+    to_point(+10, 0)
+    penup()
+    to_point(0, -10)
+    pendown()
+    to_point(0, +10)
+    penup()
+    to_point(0, 0)
 
 def test_drawman():
-    pen_down()
-    for i in range(5):
-        on_vector(10,20)
-        on_vector(0,-20)
-    pen_up()
-    to_point(0,0)
+    pendown()
+    for i in range(10):
+        on_vector(-1, 1)
+        on_vector(0, -1)
+    penup()
+    to_point(0, 0)
+    pendown()
+    to_point(0, 2)
+    to_point(2, 2)
+    to_point(2, 0)
+    to_point(0, 0)
+    penup()
 
-def pen_down():
-    t.pendown()
-
-
-def pen_up():
-    t.penup()
-
-
-def on_vector(dx,dy):
-    to_point(x_cur+dx, y_cur+dy)
-
-
-
-def to_point(x,y):
-    global x_cur, y_cur
-    x_cur = x
-    y_cur = y
-    t.goto(_drawman_scale *x,_drawman_scale *y)
-
-
-init_drawman()
-if __name__== '__main__':
-    import time
+if __name__ == '__main__':
+    init_drawman()
     test_drawman()
+
     time.sleep(10)
