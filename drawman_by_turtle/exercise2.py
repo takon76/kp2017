@@ -1,4 +1,4 @@
-from drawman import *
+from drawman_by_turtle.drawman import *
 
 
 def main():

@@ -1,4 +1,4 @@
-from drawman import *
+from drawman_by_turtle.drawman import *
 
 colours = ['red', 'green', 'blue']*5
 back_colours = ['pink', 'lightgreen', 'lightblue']*5
